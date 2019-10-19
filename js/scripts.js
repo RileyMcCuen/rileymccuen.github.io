@@ -24,13 +24,14 @@
         `;
 
     const loadProject = (proj) => {
-        const projFrag = document.createElement('div'); // Make empty div elem
-        projFrag.setAttribute('id', idGenerator.get()); // Set id to unique generated id
+        const projDiv = document.createElement('div'); // Make empty div elem
+        projDiv.setAttribute('id', idGenerator.get()); // Set id to unique generated id
+        projDiv.classList.add('project');
         if (!proj.description) {
             proj.description = 'Check out the code on Github using the link above!';
         }
-        projFrag.innerHTML = projectBox(proj.url, proj.name, proj.description); // Add project div
-        projectsElem.appendChild(projFrag); // Add to projects div
+        projDiv.innerHTML = projectBox(proj.url, proj.name, proj.description); // Add project div
+        projectsElem.appendChild(projDiv); // Add to projects div
     };
 
     const xmlh = new XMLHttpRequest();
