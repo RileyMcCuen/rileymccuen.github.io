@@ -26,7 +26,7 @@
     const loadProject = (proj) => {
         const projDiv = document.createElement('div'); // Make empty div elem
         projDiv.setAttribute('id', idGenerator.get()); // Set id to unique generated id
-        projDiv.classList.add('project');
+        projDiv.classList.add('subject');
         if (!proj.description) {
             proj.description = 'Check out the code on Github using the link above!';
         }

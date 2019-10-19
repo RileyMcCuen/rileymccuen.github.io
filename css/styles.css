@@ -7,6 +7,10 @@ body {
     background-color: #283D3B;
 }
 
+h1 {
+    padding-left: 10px;
+}
+
 h1,
 h2 {
     color: #F44708;
@@ -24,7 +28,7 @@ p {
     color: #F8F4E3;
 }
 
-.project {
+.subject {
     margin: 5px;
     padding: 5px 15px;
     background-color: rgba(248, 244, 227, .1);
