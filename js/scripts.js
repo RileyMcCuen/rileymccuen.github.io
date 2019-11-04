@@ -30,7 +30,7 @@
         if (!proj.description) {
             proj.description = 'Check out the code on Github using the link above!';
         }
-        projDiv.innerHTML = projectBox(proj.url, proj.name, proj.description); // Add project div
+        projDiv.innerHTML = projectBox(proj.html_url, proj.name, proj.description); // Add project div
         projectsElem.appendChild(projDiv); // Add to projects div
     };
 
