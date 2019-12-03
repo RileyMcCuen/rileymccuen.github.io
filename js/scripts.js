@@ -1,7 +1,7 @@
 (function() {
     const gitAPI = 'https://api.github.com/';
     const otherProjects = [{
-        url: 'http://ec2-3-17-152-129.us-east-2.compute.amazonaws.com/',
+        url: 'https://databasedashboard.co/',
         name: 'Database Dashboard',
         description: 'App that allows users to aggregate and view data in SQL databases.'
     }]; // Load non git projects into here
