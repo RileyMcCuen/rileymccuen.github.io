@@ -1,7 +1,7 @@
 (function() {
     const gitAPI = 'https://api.github.com/';
     const otherProjects = [{
-        html_url: 'https://databasedashboard.co',
+        'html_url': 'https://databasedashboard.co',
         name: 'Database Dashboard',
         description: 'App that allows users to aggregate and view data in SQL databases.'
     }]; // Load non git projects into here
@@ -50,7 +50,7 @@
                 }
             }
             loadProject({
-                url: 'https://github.com/RileyMcCuen',
+                'html_url': 'https://github.com/RileyMcCuen',
                 name: 'My Github Account',
                 description: 'It appears that my public repositories could not be gotten at this time. Feel free to take the link to my Github profile.'
             }); // Github api did not return list of repositories, put in link to Github account
