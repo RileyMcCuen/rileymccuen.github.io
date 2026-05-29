@@ -1,0 +1,87 @@
+---
+const navLinks = [
+  { href: '#about', label: 'About' },
+  { href: '#skills', label: 'Skills' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header class="fixed top-0 inset-x-0 z-50 bg-night/80 backdrop-blur border-b border-border">
+  <nav class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2 group" aria-label="Riley McCuen — home">
+      <span class="font-mono font-bold text-accent text-lg border border-accent/40 rounded px-1.5 py-0.5 group-hover:bg-accent/10 transition-colors">RM</span>
+      <span class="hidden sm:inline font-semibold tracking-tight">Riley McCuen</span>
+    </a>
+
+    <!-- Desktop nav -->
+    <ul class="hidden md:flex items-center gap-8">
+      {navLinks.map(({ href, label }) => (
+        <li>
+          <a href={href} class="text-sm font-medium text-ink-muted hover:text-accent transition-colors">
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <a
+        href="https://github.com/RileyMcCuen"
+        target="_blank"
+        rel="noopener"
+        aria-label="GitHub"
+        class="p-2 rounded text-ink-muted hover:text-accent hover:bg-surface transition-colors"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 .5C5.37.5 0 5.78 0 12.29c0 5.21 3.44 9.63 8.21 11.19.6.11.82-.25.82-.56 0-.28-.01-1.02-.02-2-3.34.71-4.04-1.58-4.04-1.58-.55-1.36-1.34-1.72-1.34-1.72-1.09-.73.08-.72.08-.72 1.2.08 1.84 1.21 1.84 1.21 1.07 1.79 2.81 1.27 3.49.97.11-.76.42-1.27.76-1.56-2.67-.3-5.47-1.31-5.47-5.81 0-1.28.47-2.33 1.24-3.15-.13-.3-.54-1.51.12-3.15 0 0 1.01-.32 3.3 1.2a11.6 11.6 0 0 1 3-.39c1.02 0 2.05.13 3 .39 2.29-1.52 3.3-1.2 3.3-1.2.66 1.64.25 2.85.12 3.15.77.82 1.24 1.87 1.24 3.15 0 4.51-2.81 5.5-5.49 5.79.43.36.81 1.08.81 2.18 0 1.57-.01 2.84-.01 3.23 0 .31.21.68.83.56A12.01 12.01 0 0 0 24 12.29C24 5.78 18.63.5 12 .5z" />
+        </svg>
+      </a>
+      <a
+        href="https://linkedin.com/in/rileymccuen"
+        target="_blank"
+        rel="noopener"
+        aria-label="LinkedIn"
+        class="p-2 rounded text-ink-muted hover:text-accent hover:bg-surface transition-colors"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z" />
+        </svg>
+      </a>
+
+      <!-- Mobile menu button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden p-2 rounded text-ink-muted hover:text-accent transition-colors"
+        aria-label="Open navigation menu"
+      >
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-surface">
+    <ul class="px-4 py-3 space-y-1">
+      {navLinks.map(({ href, label }) => (
+        <li>
+          <a href={href} class="mobile-link block py-2 text-sm font-medium text-ink-muted hover:text-accent transition-colors">
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => menu?.classList.toggle('hidden'));
+  // Close the mobile menu after tapping a link.
+  menu?.querySelectorAll('.mobile-link').forEach((link) =>
+    link.addEventListener('click', () => menu.classList.add('hidden'))
+  );
+</script>

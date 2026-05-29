@@ -1,0 +1,32 @@
+---
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Riley McCuen",
+  "url": "https://rileymccuen.github.io",
+  "jobTitle": "Software Engineer",
+  "description":
+    "Software engineer specializing in backend and cloud development. Builds RESTful APIs and CLIs in Go and Python.",
+  "email": "mailto:rileymccuen@yahoo.com",
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Washington University in St. Louis",
+  },
+  "knowsAbout": [
+    "Go",
+    "Python",
+    "Java",
+    "TypeScript",
+    "Cloud Infrastructure",
+    "Backend Development",
+    "RESTful APIs",
+    "Distributed Systems",
+  ],
+  "sameAs": [
+    "https://github.com/RileyMcCuen",
+    "https://linkedin.com/in/rileymccuen",
+  ],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

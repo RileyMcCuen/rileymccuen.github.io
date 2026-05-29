@@ -1,0 +1,298 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+// ---------------------------------------------------------------------------
+// Hand-picked work I want front and center. Add more entries here over time.
+// ---------------------------------------------------------------------------
+const featured = [
+  {
+    name: 'Database Dashboard',
+    description:
+      'A web app that lets users connect to, aggregate, and visualize data across SQL databases — built end to end, from the query layer to the UI.',
+    url: 'https://databasedashboard.co',
+    language: 'Go',
+    topics: ['go', 'postgres', 'react', 'rest-api'],
+    featured: true,
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Live repositories, pulled from the GitHub API at *build time* (so visitors
+// never hit a rate limit). Falls back gracefully to an empty list if the API
+// is unreachable during the build.
+// ---------------------------------------------------------------------------
+type Repo = {
+  name: string;
+  description: string;
+  url: string;
+  language: string | null;
+  stars: number;
+  topics: string[];
+};
+
+let repos: Repo[] = [];
+let fetchFailed = false;
+
+const featuredUrls = new Set(featured.map((p) => p.url));
+
+try {
+  const headers: Record<string, string> = {
+    Accept: 'application/vnd.github+json',
+    'User-Agent': 'rileymccuen.github.io-build',
+  };
+  // Provided automatically in CI; raises the rate limit from 60 to 5000/hr.
+  const token = import.meta.env.GITHUB_TOKEN ?? process.env.GITHUB_TOKEN;
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  const res = await fetch(
+    'https://api.github.com/users/RileyMcCuen/repos?per_page=100&sort=pushed',
+    { headers }
+  );
+  if (!res.ok) throw new Error(`GitHub API responded ${res.status}`);
+
+  const data = (await res.json()) as any[];
+  repos = data
+    .filter(
+      (r) =>
+        !r.fork &&
+        !r.archived &&
+        !r.private &&
+        r.name !== 'rileymccuen.github.io' &&
+        !featuredUrls.has(r.html_url)
+    )
+    .sort(
+      (a, b) => new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime()
+    )
+    .slice(0, 6)
+    .map((r) => ({
+      name: r.name,
+      description: r.description || 'Check out the code on GitHub →',
+      url: r.html_url,
+      language: r.language,
+      stars: r.stargazers_count,
+      topics: r.topics ?? [],
+    }));
+} catch (err) {
+  fetchFailed = true;
+  console.warn('[build] Could not load GitHub repos:', (err as Error).message);
+}
+
+// ---------------------------------------------------------------------------
+// Skills, grouped.
+// ---------------------------------------------------------------------------
+const skillGroups = [
+  {
+    label: 'Languages',
+    items: ['Go', 'Python', 'Java', 'TypeScript / JavaScript', 'C / C++', 'Swift'],
+  },
+  {
+    label: 'Backend & Cloud',
+    items: ['RESTful APIs', 'CLIs', 'Microservices', 'Docker', 'Kubernetes', 'CI/CD'],
+  },
+  {
+    label: 'Frontend',
+    items: ['React', 'Angular', 'Astro', 'Tailwind CSS', 'SwiftUI'],
+  },
+  {
+    label: 'Data & Tooling',
+    items: ['PostgreSQL', 'SQL', 'gRPC', 'Git', 'Linux'],
+  },
+];
+
+const heroTech = ['Go', 'Python', 'Java', 'TypeScript', 'C/C++'];
+---
+
+<BaseLayout
+  title="Riley McCuen — Backend & Cloud Engineer"
+  description="Riley McCuen is a software engineer specializing in backend and cloud development — RESTful APIs and CLIs in Go and Python. WashU Computer Science graduate."
+>
+  <!-- Hero -->
+  <section class="relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32">
+    <!-- Background flourishes -->
+    <div class="pointer-events-none absolute inset-0 opacity-60" aria-hidden="true">
+      <div class="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-accent/10 blur-3xl"></div>
+      <div class="absolute top-40 right-0 h-72 w-72 rounded-full bg-spark/10 blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-5xl mx-auto px-4">
+      <p class="font-mono text-sm text-accent mb-4">
+        <span class="text-ink-dim">$</span> whoami
+      </p>
+      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.05]">
+        Riley McCuen
+      </h1>
+      <p class="mt-4 text-xl md:text-2xl text-ink-muted font-medium">
+        Backend &amp; Cloud Engineer
+      </p>
+      <p class="mt-6 max-w-2xl text-base md:text-lg text-ink-muted leading-relaxed">
+        I build dependable backend systems — RESTful APIs, CLIs, and cloud
+        infrastructure — primarily in <span class="text-accent">Go</span> and
+        <span class="text-accent">Python</span>. I care about clean design,
+        solid fundamentals, and shipping things that work.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a
+          href="#projects"
+          class="inline-flex items-center gap-2 rounded-lg bg-accent text-night px-5 py-2.5 font-semibold hover:bg-accent-light transition-colors"
+        >
+          View my work
+        </a>
+        <a
+          href="#contact"
+          class="inline-flex items-center gap-2 rounded-lg border border-border px-5 py-2.5 font-semibold text-ink hover:border-accent/50 hover:text-accent transition-colors"
+        >
+          Get in touch
+        </a>
+      </div>
+
+      <div class="mt-10 flex flex-wrap items-center gap-2">
+        {heroTech.map((t) => (
+          <span class="font-mono text-xs text-ink-muted border border-border rounded-full px-3 py-1">{t}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="py-20 border-t border-border">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="grid md:grid-cols-3 gap-10">
+        <div class="md:col-span-1">
+          <p class="font-mono text-sm text-accent mb-2">// about</p>
+          <h2 class="text-2xl md:text-3xl font-bold">A bit about me</h2>
+        </div>
+        <div class="md:col-span-2 space-y-4 text-ink-muted leading-relaxed">
+          <p>
+            I graduated <span class="text-ink">Summa Cum Laude</span> (3.98 GPA)
+            with a B.S. in Computer Science from
+            <span class="text-ink">Washington University in St. Louis</span>.
+          </p>
+          <p>
+            My focus is cloud and backend engineering — I love designing and
+            writing RESTful APIs and CLIs, especially in
+            <span class="text-ink">Go</span> and <span class="text-ink">Python</span>.
+            Java was the first language I learned, and I'm equally at home in
+            TypeScript and C/C++.
+          </p>
+          <p>
+            While backend is my home turf, I can build clean UIs with modern
+            frontend tooling — React, Angular, Astro, and SwiftUI among them.
+            This very site is built with Astro and Tailwind.
+          </p>
+          <p>
+            Outside of work, I build personal projects to keep sharpening both
+            design and implementation across languages. Most of the repositories
+            on my GitHub are exactly that. If you'd like a closer look at
+            anything — from CS theory to full-stack apps —
+            <a href="#contact" class="text-accent hover:underline">reach out</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="py-20 border-t border-border">
+    <div class="max-w-5xl mx-auto px-4">
+      <p class="font-mono text-sm text-accent mb-2">// skills</p>
+      <h2 class="text-2xl md:text-3xl font-bold mb-10">Tools I work with</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {skillGroups.map((group) => (
+          <div class="rounded-xl border border-border bg-surface p-5">
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-ink-dim mb-4">{group.label}</h3>
+            <ul class="space-y-2">
+              {group.items.map((item) => (
+                <li class="flex items-center gap-2 text-sm text-ink-muted">
+                  <span class="text-accent">▸</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="py-20 border-t border-border">
+    <div class="max-w-5xl mx-auto px-4">
+      <p class="font-mono text-sm text-accent mb-2">// projects</p>
+      <h2 class="text-2xl md:text-3xl font-bold mb-3">Things I've built</h2>
+      <p class="text-ink-muted mb-10 max-w-2xl">
+        A few highlights, plus my most recently active public repositories —
+        pulled live from GitHub.
+      </p>
+
+      <h3 class="text-sm font-semibold uppercase tracking-wider text-ink-dim mb-4">Featured</h3>
+      <div class="grid md:grid-cols-2 gap-5 mb-12">
+        {featured.map((p) => <ProjectCard {...p} />)}
+      </div>
+
+      {repos.length > 0 && (
+        <>
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-ink-dim mb-4">Recent on GitHub</h3>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {repos.map((r) => <ProjectCard {...r} />)}
+          </div>
+        </>
+      )}
+
+      <div class="mt-10">
+        <a
+          href="https://github.com/RileyMcCuen"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 text-accent font-semibold hover:gap-3 transition-all"
+        >
+          {fetchFailed ? 'See all my work on GitHub' : 'View everything on GitHub'}
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-20 border-t border-border">
+    <div class="max-w-5xl mx-auto px-4 text-center">
+      <p class="font-mono text-sm text-accent mb-2">// contact</p>
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Let's talk</h2>
+      <p class="text-ink-muted max-w-xl mx-auto mb-8">
+        Open to interesting backend and cloud work. The fastest way to reach me
+        is email — or connect on LinkedIn and GitHub.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a
+          href="mailto:rileymccuen@yahoo.com"
+          class="inline-flex items-center gap-2 rounded-lg bg-accent text-night px-5 py-2.5 font-semibold hover:bg-accent-light transition-colors"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M2.003 5.884L12 11.882l9.997-5.998A2 2 0 0020 4H4a2 2 0 00-1.997 1.884z" />
+            <path d="M22 8.118l-10 6-10-6V18a2 2 0 002 2h16a2 2 0 002-2V8.118z" />
+          </svg>
+          Email me
+        </a>
+        <a
+          href="https://linkedin.com/in/rileymccuen"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 rounded-lg border border-border px-5 py-2.5 font-semibold text-ink hover:border-accent/50 hover:text-accent transition-colors"
+        >
+          LinkedIn
+        </a>
+        <a
+          href="https://github.com/RileyMcCuen"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 rounded-lg border border-border px-5 py-2.5 font-semibold text-ink hover:border-accent/50 hover:text-accent transition-colors"
+        >
+          GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
