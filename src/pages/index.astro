@@ -9,7 +9,7 @@ const featured = [
   {
     name: 'Database Dashboard',
     description:
-      'A web app that lets users connect to, aggregate, and visualize data across SQL databases — built end to end, from the query layer to the UI.',
+      'A web app for connecting to SQL databases and aggregating and visualizing the data inside them. I built it end to end, from the query layer to the UI.',
     url: 'https://databasedashboard.co',
     language: 'Go',
     topics: ['go', 'postgres', 'react', 'rest-api'],
@@ -84,28 +84,46 @@ try {
 const skillGroups = [
   {
     label: 'Languages',
-    items: ['Go', 'Python', 'Java', 'TypeScript / JavaScript', 'C / C++', 'Swift'],
+    items: ['Go', 'Python', 'TypeScript', 'SQL'],
   },
   {
-    label: 'Backend & Cloud',
-    items: ['RESTful APIs', 'CLIs', 'Microservices', 'Docker', 'Kubernetes', 'CI/CD'],
+    label: 'Backend & APIs',
+    items: ['RESTful API design', 'Microservices', 'CLIs', 'gRPC', 'System design'],
   },
   {
-    label: 'Frontend',
-    items: ['React', 'Angular', 'Astro', 'Tailwind CSS', 'SwiftUI'],
+    label: 'Data Platform',
+    items: ['CI/CD for data pipelines', 'Data lake governance', 'Pipeline orchestration', 'Data quality & lineage'],
   },
   {
-    label: 'Data & Tooling',
-    items: ['PostgreSQL', 'SQL', 'gRPC', 'Git', 'Linux'],
+    label: 'Cloud & DevOps',
+    items: ['Serverless architecture', 'Docker', 'CI/CD', 'Git', 'Linux'],
   },
 ];
 
-const heroTech = ['Go', 'Python', 'Java', 'TypeScript', 'C/C++'];
+// ---------------------------------------------------------------------------
+// Work experience, most recent first.
+// ---------------------------------------------------------------------------
+const experience = [
+  {
+    company: 'Dropbox',
+    role: 'Senior Software Engineer, Data Platform',
+    dates: 'Oct 2023 – Present',
+    description: 'Building CI/CD and governance for data pipelines on the data lake.',
+  },
+  {
+    company: 'Capital One',
+    role: 'Full Stack Engineer',
+    dates: 'Aug 2021 – Oct 2023',
+    description: 'Built internal applications with a backend focus.',
+  },
+];
+
+const heroTech = ['Go', 'Python', 'TypeScript'];
 ---
 
 <BaseLayout
-  title="Riley McCuen — Backend & Cloud Engineer"
-  description="Riley McCuen is a software engineer specializing in backend and cloud development — RESTful APIs and CLIs in Go and Python. WashU Computer Science graduate."
+  title="Riley McCuen | Backend & Data Platform Engineer"
+  description="Riley McCuen is a software engineer specializing in backend systems and RESTful API design, with years building CI/CD for data pipelines and data lake governance on a data platform team. Works primarily in Go and Python."
 >
   <!-- Hero -->
   <section class="relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32">
@@ -123,13 +141,14 @@ const heroTech = ['Go', 'Python', 'Java', 'TypeScript', 'C/C++'];
         Riley McCuen
       </h1>
       <p class="mt-4 text-xl md:text-2xl text-ink-muted font-medium">
-        Backend &amp; Cloud Engineer
+        Backend &amp; Data Platform Engineer
       </p>
       <p class="mt-6 max-w-2xl text-base md:text-lg text-ink-muted leading-relaxed">
-        I build dependable backend systems — RESTful APIs, CLIs, and cloud
-        infrastructure — primarily in <span class="text-accent">Go</span> and
-        <span class="text-accent">Python</span>. I care about clean design,
-        solid fundamentals, and shipping things that work.
+        I build backend systems and design RESTful APIs, mostly in
+        <span class="text-accent">Go</span> and
+        <span class="text-accent">Python</span>. Lately I've been deep in data
+        platform work: CI/CD for our data pipelines and governance across the
+        data lake.
       </p>
 
       <div class="mt-8 flex flex-wrap gap-3">
@@ -170,24 +189,53 @@ const heroTech = ['Go', 'Python', 'Java', 'TypeScript', 'C/C++'];
             <span class="text-ink">Washington University in St. Louis</span>.
           </p>
           <p>
-            My focus is cloud and backend engineering — I love designing and
-            writing RESTful APIs and CLIs, especially in
-            <span class="text-ink">Go</span> and <span class="text-ink">Python</span>.
-            Java was the first language I learned, and I'm equally at home in
-            TypeScript and C/C++.
+            Backend engineering and <span class="text-ink">RESTful API design</span>
+            are what I do best. I write services and CLIs mostly in
+            <span class="text-ink">Go</span> and <span class="text-ink">Python</span>,
+            and I do a lot of my work in
+            <span class="text-ink">serverless architecture</span>. I'm comfortable
+            in TypeScript too when a project needs it.
           </p>
           <p>
-            While backend is my home turf, I can build clean UIs with modern
-            frontend tooling — React, Angular, Astro, and SwiftUI among them.
-            This very site is built with Astro and Tailwind.
+            For the past few years I've worked on a
+            <span class="text-ink">data platform team</span>. My focus is
+            <span class="text-ink">CI/CD for our data pipelines</span> and
+            <span class="text-ink">governance on the data lake</span>. I build the
+            tooling and automation that keep our data tested and reliable, so the
+            teams that depend on it can trust what they're working with.
           </p>
           <p>
-            Outside of work, I build personal projects to keep sharpening both
-            design and implementation across languages. Most of the repositories
-            on my GitHub are exactly that. If you'd like a closer look at
-            anything — from CS theory to full-stack apps —
+            Outside of work I build personal projects to keep my design and coding
+            sharp. Most of the repos on my GitHub are just that. If you want a
+            closer look at any of them,
             <a href="#contact" class="text-accent hover:underline">reach out</a>.
           </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience" class="py-20 border-t border-border">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="grid md:grid-cols-3 gap-10">
+        <div class="md:col-span-1">
+          <p class="font-mono text-sm text-accent mb-2">// experience</p>
+          <h2 class="text-2xl md:text-3xl font-bold">Where I've worked</h2>
+        </div>
+        <div class="md:col-span-2 space-y-8">
+          {experience.map((job) => (
+            <div class="relative pl-6 border-l-2 border-border">
+              <span class="absolute -left-[7px] top-1.5 h-3 w-3 rounded-full bg-accent"></span>
+              <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                <h3 class="font-semibold text-ink">
+                  {job.role} <span class="text-accent">@ {job.company}</span>
+                </h3>
+                <span class="font-mono text-xs text-ink-dim shrink-0">{job.dates}</span>
+              </div>
+              <p class="mt-2 text-sm text-ink-muted leading-relaxed">{job.description}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -222,8 +270,10 @@ const heroTech = ['Go', 'Python', 'Java', 'TypeScript', 'C/C++'];
       <p class="font-mono text-sm text-accent mb-2">// projects</p>
       <h2 class="text-2xl md:text-3xl font-bold mb-3">Things I've built</h2>
       <p class="text-ink-muted mb-10 max-w-2xl">
-        A few highlights, plus my most recently active public repositories —
-        pulled live from GitHub.
+        A few highlights, plus my most recently active public repos, pulled
+        live from GitHub. Most of my professional and contract work is
+        proprietary and under NDA, so the source isn't public. These are
+        personal projects.
       </p>
 
       <h3 class="text-sm font-semibold uppercase tracking-wider text-ink-dim mb-4">Featured</h3>
@@ -262,8 +312,8 @@ const heroTech = ['Go', 'Python', 'Java', 'TypeScript', 'C/C++'];
       <p class="font-mono text-sm text-accent mb-2">// contact</p>
       <h2 class="text-2xl md:text-3xl font-bold mb-4">Let's talk</h2>
       <p class="text-ink-muted max-w-xl mx-auto mb-8">
-        Open to interesting backend and cloud work. The fastest way to reach me
-        is email — or connect on LinkedIn and GitHub.
+        I'm open to interesting backend and data platform work. Email is the
+        fastest way to reach me, or connect on LinkedIn and GitHub.
       </p>
       <div class="flex flex-wrap justify-center gap-3">
         <a
